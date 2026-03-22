@@ -139,7 +139,7 @@ Schreibe in dieser Reihenfolge:
 1. **Eröffnung IN DOMÄNENSPRACHE** (~400 Z.): Konkrete, domänenspezifische Probleme. Der Gutachter muss sofort verstehen, WO das Problem existiert.
 2. **SdT als Kontrast** (~350 Z.): Aktuelle Ansätze mit Namen + Limitierungen.
 3. **Forschungsansatz AUF METHODENEBENE** (~500 Z.): "Ziel war es zu untersuchen, ob..." Wissenschaftliche Methoden, NICHT kommerzielle Tools.
-4. **Ergebnis mit Zielparametern** (~250 Z.): Validiertes Verfahren/Erkenntnis + messbare Parameter.
+4. **Ergebnis — ergebnisoffen** (~250 Z.): Formuliere als offene Erkenntnisfrage, nicht als Lieferergebnis. NICHT: "Ergebnis ist ein validiertes Verfahren mit >90% Trefferquote." SONDERN: "Angestrebt wurden Erkenntnisse darüber, ob & unter welchen Bedingungen [Methode] die angestrebte [Kenngröße] erreichen kann." Nenne 1-2 messbare Parameter, aber als Untersuchungsgegenstand, nicht als Versprechen.
 
 **Vokabular:** Im eigenen Ansatz keine kommerziellen Namen. Im SdT kommerzielle Namen ERLAUBT und ERWÜNSCHT.
 
@@ -189,7 +189,7 @@ Per Code nach jeder Sektion:
 ```python
 print(f"{len(text)} / {limit} Zeichen ({len(text)/limit*100:.0f}%)")
 ```
-Ziel: **95-100%**. Wenn >100%: verdichten. Wenn <95%: Details einarbeiten.
+Ziel: **95-100%**. Die Ziel-Sektion muss am vollsten sein (**98-100%**) — sie bestimmt 60% der Bewertung, jedes ungenutzte Zeichen dort ist der größte Verlust. Wenn >100%: verdichten. Wenn <95%: Details einarbeiten.
 
 ---
 
@@ -282,8 +282,31 @@ Diese Datei verändert NICHT den Antragstext. Sie ist das strukturierte Feedback
 ```markdown
 # Berater-Analyse: [Projekttitel]
 
+## ⚡ Sofort-Handlungsbedarf (Top 3)
+
+Die wichtigsten Punkte, die der Berater VOR Einreichung prüfen/ändern sollte:
+
+1. [Wichtigster Punkt — z.B. "DOI ergänzen in Neuartigkeits-Sektion"]
+2. [Zweitwichtigster — z.B. "Kunde muss NLP-Pipeline-Schritte bestätigen"]
+3. [Drittwichtigster — z.B. "Vorhabenzeitraum klären: 2021 oder 2022?"]
+
 ## Forschungsnarrativ
 [Die 3 Sätze aus Phase 1 — Wissensfrage, Warum offen, Unsicherheit]
+
+## Simulierte Nachforderung
+
+Was würde ein kritischer BSFZ-Gutachter fragen? Für jede Frage:
+- Die exakte Formulierung (im Stil echter BSFZ-Nachforderungen)
+- Ob der Antrag sie beantwortet
+- Was der Berater tun sollte
+
+Frage 1: "[Exakte Formulierung]"
+→ Status: ✅ Abgedeckt / ⚠️ Teilweise / ❌ Offen
+→ Handlungsempfehlung: [Konkret — nicht "kein Handlungsbedarf" wenn es
+   der häufigste Nachforderungsgrund ist]
+
+WICHTIG: Bei "⚠️ Teilweise" immer eine konkrete Handlungsempfehlung
+geben. "Teilweise abgedeckt" ohne Aktion ist für den Berater nutzlos.
 
 ## Qualitätsbewertung pro Sektion
 
@@ -292,24 +315,10 @@ Diese Datei verändert NICHT den Antragstext. Sie ist das strukturierte Feedback
 - **BSFZ-Risiko:** [Wo könnte der Gutachter nachfragen]
 - **Berater prüfen:** [Was der Berater nochmal anschauen sollte]
 
-### Neuartigkeit
-- **Stärke:** [...]
-- **BSFZ-Risiko:** [...]
-- **Berater prüfen:** [...]
-
 [...für jede Sektion...]
 
-## Simulierte Nachforderung
-[Die konkreten Fragen, die ein kritischer BSFZ-Gutachter stellen könnte]
-
-Frage 1: "[Exakte Formulierung]"
-→ Status: ✅ Im Antrag abgedeckt / ⚠️ Teilweise / ❌ Nicht abgedeckt
-→ Handlungsempfehlung: [Was der Berater tun sollte]
-
-Frage 2: [...]
-
 ## Offene Annahmen
-[Alle [ANNAHME: ...] aus dem Antrag, die vom Kunden bestätigt werden müssen]
+[Alle Annahmen, die vom Kunden bestätigt werden müssen]
 
 - [ ] [Annahme 1] — betrifft Sektion: [X]
 - [ ] [Annahme 2] — betrifft Sektion: [X]
@@ -322,9 +331,39 @@ Frage 2: [...]
 | ...     | ...     | ...   | ...        |
 ```
 
-### Zusätzlich: .docx-Variante (optional)
+### Datei 4: `output/[kundenname]/komplett.docx` — Word-Gesamtdokument
 
-Falls der Nutzer eine .docx-Datei benötigt, erstelle sie zusätzlich. Falls eine Docx-Skill-Anleitung unter `/mnt/skills/public/docx/SKILL.md` existiert, befolge deren Anweisungen. Formatierung: Arial 11pt, Titel 14pt Bold, Überschriften 12pt Bold, A4, 1 Zoll Ränder, Zeichenzählung in grauer Schrift.
+Ein professionell formatiertes Word-Dokument, das alle Informationen visuell sauber aufbereitet. Falls eine Docx-Skill-Anleitung unter `/mnt/skills/public/docx/SKILL.md` existiert, befolge deren technische Anweisungen. Sonst nutze Python-docx.
+
+**Aufbau des .docx:**
+
+**Teil 1: Antragstext (Seite 1-2)**
+- Titel: Arial 14pt Bold, zentriert
+- Sektionsüberschriften: Arial 12pt Bold, die exakten BSFZ-Fragetexte
+- Fließtext: Arial 11pt
+- Zeichenzählung unter jeder Sektion: Arial 9pt, grau, kursiv, z.B. "(1.485 / 1.500 Zeichen)"
+- Schlagwörter als nummerierte Liste
+- Seitenformat: A4, Ränder 2,5 cm
+
+**Teil 2: Arbeitsplan-Anlage (ab Seite 3)**
+- Überschrift: "Arbeitsplan – [Projekttitel]"
+- Pro AP: Überschrift Arial 11pt Bold, Unter-APs als Unterüberschriften
+- Ergebnis-Zeilen: fett markiert
+- Zeitachse in der AP-Überschrift
+
+**Teil 3: Arbeitspakete Kurzfassung (1 Seite)**
+- Kompakte nummerierte Liste mit Methoden in Klammern
+
+**Teil 4: Berater-Analyse (ab nächste Seite)**
+- Seitenumbruch vor diesem Teil
+- Überschrift: "Interne Analyse — nicht zur Einreichung"
+- Hintergrundfarbe oder Rahmen, der visuell klar macht: Das ist nicht Teil des Antrags
+- Sofort-Handlungsbedarf: Top 3 als nummerierte rote/orange Markierung
+- Forschungsnarrativ
+- Simulierte Nachforderung mit Status-Icons (✅ / ⚠️ / ❌)
+- Qualitätsbewertung pro Sektion
+- Offene Annahmen als Checkliste
+- Zeichenauslastungs-Tabelle
 
 ---
 
@@ -335,7 +374,7 @@ Falls der Nutzer eine .docx-Datei benötigt, erstelle sie zusätzlich. Falls ein
 2. Phase 1: Briefing + spezifische Rückfragen + Forschungsnarrativ → Nutzer bestätigt
 3. Phase 2: Antrag schreiben → Zeichenkontrolle per Code
 4. Phase 3: Gutachter-Paraphrase + Simulierte Nachforderung + Zeichenverifikation
-5. Phase 4: Drei Dateien in output/[kundenname]/ ablegen
+5. Phase 4: Vier Dateien in output/[kundenname]/ ablegen
 ```
 
 Zwischen jeder Phase aktiv Feedback einholen. Wenn der Nutzer nach Phase 1 bestätigt, können Phase 2-4 zusammen ausgeführt werden.
