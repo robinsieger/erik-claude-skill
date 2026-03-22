@@ -129,6 +129,16 @@ Lies `references/stilregeln.md`, `references/antragsstruktur.md` und `references
 
 Das Forschungsnarrativ aus Phase 1 ist der Kompass: Jede Sektion muss dazu beitragen, die Wissensfrage, die Offenheit und die Unsicherheit zu belegen.
 
+### Reframing-Prinzip
+
+Bevor du eine Sektion schreibst, frage dich: "Beschreibe ich gerade, WAS gebaut wurde — oder WELCHE ERKENNTNIS gewonnen wurde?" Der Gutachter will Erkenntnisse, nicht Produkte. Systematisch umdenken:
+
+- "Churn-Prediction" → "Untersuchung, ob verhaltensbezogene Modellierung Beteiligungsdrift prognostizieren kann"
+- "Wir haben ein Mapping-Tool gebaut" → "Es wurde untersucht, ob semantische Kontextrekonstruktion aus fragmentierter Kommunikation realisierbar ist"
+- "Die Pipeline verarbeitet Daten" → "Es wurde erforscht, ob multimodale Datenfusion heterogener Signalquellen eine kohärente Zustandsbewertung ermöglicht"
+
+Der Trick: Ersetze das konkrete Produkt/Feature durch die dahinterliegende wissenschaftliche Fragestellung. Das Projekt bleibt dasselbe — nur die Perspektive wechselt von Engineering zu Forschung.
+
 Schreibe in dieser Reihenfolge:
 
 #### Schritt 1: Ziel-Sektion (1.500 Zeichen, ~200-220 Wörter)
@@ -177,7 +187,18 @@ Verdichte den Arbeitsplan. Temporalmarker: "Zunächst... Darauf... Nun... Final.
 #### Schritt 6: Risiko (1.000 Zeichen, ~130-150 Wörter)
 
 2 Blöcke. Jeder: "Unklar ist, ob [MODELL] [INPUTS] [VERSAGEN]." + Lösungsstrategie + Restrisiko.
-NICHT: Methodeninhärente Standardrisiken. Stattdessen: Systemrisiken, Paradigmenkonflikte, Übertragbarkeit.
+
+**Selbsttest vor dem Schreiben jedes Risikos:** Würde dieses Risiko in JEDEM ML/Ingenieur/Chemie-Projekt existieren? Wenn ja → es ist methodeninhärent und wird von der BSFZ abgelehnt. Verwerfen und ein projektspezifisches Risiko formulieren.
+
+Beispiele für ABGELEHNTE Risiken (methodeninhärent):
+- "Klassenungleichgewicht", "Overfitting", "fehlende Ground-Truth", "unvollständige Daten"
+- "Materialtoleranz", "Fertigungsstreuung", "Scale-up könnte scheitern"
+
+Beispiele für AKZEPTIERTE Risiken (projektspezifisch):
+- Paradoxe Rückkopplung (Intervention verschlechtert Ergebnis)
+- Technische Artefakte nicht von echten Signalen trennbar
+- Nichtlineare Wechselwirkungen zwischen Komponenten, die erst im Zusammenspiel auftreten
+- Übertragbarkeit von Simulation/Labor auf Realbedingungen bei KONKRETEM Grund warum
 
 #### Schritt 7: Schlagwörter (10 Stück)
 
@@ -221,11 +242,11 @@ Alle Sektionen nochmals zählen. Kein Limit darf überschritten sein.
 
 ---
 
-## Phase 4: Output — Kundenordner mit drei Dateien
+## Phase 4: Output — Kundenordner mit fünf Dateien
 
 Erstelle einen Kundenordner `output/[kundenname]/` im Arbeitsverzeichnis. Der Kundenname wird aus dem Transkript abgeleitet (Firmenname oder Projektname, als slug: Kleinbuchstaben, Bindestriche statt Leerzeichen, keine Sonderzeichen). Beispiele: `output/lingoda/`, `output/medocheck/`, `output/containerterminal-htg/`.
 
-Lege dort drei Dateien ab:
+Lege dort fünf Dateien ab:
 
 ### Datei 1: `output/[kundenname]/antrag.md` — Der Antragstext
 
@@ -331,7 +352,21 @@ geben. "Teilweise abgedeckt" ohne Aktion ist für den Berater nutzlos.
 | ...     | ...     | ...   | ...        |
 ```
 
-### Datei 4: `output/[kundenname]/komplett.docx` — Word-Gesamtdokument
+### Datei 4: `output/[kundenname]/antrag-variante-b.md` — Berater-Variante
+
+Eine zweite Antragsvariante mit mehr kreativer Freiheit. Die Hauptvariante (`antrag.md`) bleibt strikt am Transkript — alles ist belegbar und verifizierbar. Die Berater-Variante darf darüber hinausgehen:
+
+**Was die Berater-Variante anders macht:**
+- **Mutigeres Forschungsnarrativ:** Das Projekt wird auf einer höheren Abstraktionsebene geframed. Statt "ML-basierte Abbruchprognose" → "Multimodale verhaltensbezogene Modellierung zur Erkennung von Beteiligungsdrift". Die dahinterliegende Forschungsfrage wird stärker betont.
+- **Wissenschaftlichere Konzepte:** Plausible Forschungskonzepte einführen, die zum Projekt passen, aber im Transkript nicht explizit genannt wurden (z.B. Ontologie-Modellierung, Wissensgraph, Korpuslinguistik). Als [ANNAHME] markiert.
+- **Stärkere Risiken:** Systemrisiken statt Methodenrisiken — paradoxe Rückkopplungseffekte, emergente Wechselwirkungen, Paradigmenkonflikte. Risiken, die ein erfahrener Berater aus dem Projektkontext ableiten würde.
+- **Alternativtitel:** Wissenschaftlicher, weniger technisch
+
+**Format:** Gleiche Struktur wie antrag.md, aber alle Stellen mit kreativer Freiheit sind mit `[BERATER-ANNAHME: ...]` markiert. Der Berater sieht sofort, was verifiziert werden muss.
+
+**Sinn der zwei Varianten:** Der Berater liest beide, pickt die besten Formulierungen aus Variante B und übernimmt sie — nach Rücksprache mit dem Kunden — in die Hauptvariante. Variante B ist der kreative Input, Variante A die sichere Basis.
+
+### Datei 5: `output/[kundenname]/komplett.docx` — Word-Gesamtdokument
 
 Ein professionell formatiertes Word-Dokument, das alle Informationen visuell sauber aufbereitet. Falls eine Docx-Skill-Anleitung unter `/mnt/skills/public/docx/SKILL.md` existiert, befolge deren technische Anweisungen. Sonst nutze Python-docx.
 
@@ -354,7 +389,12 @@ Ein professionell formatiertes Word-Dokument, das alle Informationen visuell sau
 **Teil 3: Arbeitspakete Kurzfassung (1 Seite)**
 - Kompakte nummerierte Liste mit Methoden in Klammern
 
-**Teil 4: Berater-Analyse (ab nächste Seite)**
+**Teil 4: Berater-Variante (ab nächste Seite)**
+- Seitenumbruch vor diesem Teil
+- Überschrift: "Variante B — Kreatives Reframing (zur Diskussion)"
+- Alle Sektionen der Berater-Variante, [BERATER-ANNAHME]-Markierungen in roter Schrift
+
+**Teil 5: Berater-Analyse (ab nächste Seite)**
 - Seitenumbruch vor diesem Teil
 - Überschrift: "Interne Analyse — nicht zur Einreichung"
 - Hintergrundfarbe oder Rahmen, der visuell klar macht: Das ist nicht Teil des Antrags
@@ -374,7 +414,7 @@ Ein professionell formatiertes Word-Dokument, das alle Informationen visuell sau
 2. Phase 1: Briefing + spezifische Rückfragen + Forschungsnarrativ → Nutzer bestätigt
 3. Phase 2: Antrag schreiben → Zeichenkontrolle per Code
 4. Phase 3: Gutachter-Paraphrase + Simulierte Nachforderung + Zeichenverifikation
-5. Phase 4: Vier Dateien in output/[kundenname]/ ablegen
+5. Phase 4: Fünf Dateien in output/[kundenname]/ ablegen
 ```
 
 Zwischen jeder Phase aktiv Feedback einholen. Wenn der Nutzer nach Phase 1 bestätigt, können Phase 2-4 zusammen ausgeführt werden.
