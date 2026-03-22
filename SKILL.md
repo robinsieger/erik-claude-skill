@@ -5,36 +5,31 @@ description: "Erstellt Forschungszulage-Anträge (§ 6 FZulG) aus Meeting-Transk
 
 # Forschungszulage-Antragsgenerator
 
-Dieser Skill verwandelt Meeting-Transkripte in einreichungsfertige Forschungszulage-Anträge nach § 6 FZulG. Output: .docx-Dokument mit Antragstext + Arbeitsplan-Anlage.
+Verwandelt Meeting-Transkripte in einreichungsfertige Forschungszulage-Anträge (§ 6 FZulG). Output: Drei Dateien im `output/`-Ordner — Antragstext, Arbeitsplan, Berater-Analyse.
 
 ## Wie der Gutachter denkt
 
-Der Gutachter ist kein Forscher, der dein Projekt versteht. Er ist ein **Pattern-Matcher mit 30-60 Minuten pro Antrag**. Er sucht nach vier Signalen:
+Der Gutachter ist ein **Pattern-Matcher mit 30-60 Minuten**. Er sucht vier Signale:
 
-1. **WISSENSLÜCKE** (erster Absatz Ziel-Sektion): Steht dort ein offenes Problem → grünes Licht. Steht dort ein Produkt → sofort skeptisch.
-2. **METHODEN-NAMEN**: Er scannt nach wissenschaftlichen Methodennamen (LSTM, FEM, Monte-Carlo, Bayes, DoE...). Je mehr er findet, desto eher ordnet er es als Forschung ein. Kommerzielle Tool-Namen (PostgreSQL, ANSYS, AWS) sind rote Flaggen.
-3. **PARAPHRASE-FÄHIGKEIT**: Er versucht, den Antrag in einem Absatz zusammenzufassen. Geht das leicht → gut. Muss er zweimal lesen → Nachforderung.
-4. **SCHEITERN-KÖNNEN**: Bei den Risiken sucht er ein Szenario, in dem das Vorhaben komplett scheitert. Nicht "wird schwierig", sondern "funktioniert möglicherweise nicht".
-
-Alle Regeln in diesem Skill dienen dazu, diese vier Signale zu maximieren.
+1. **WISSENSLÜCKE** (erster Absatz): Offenes Problem → grün. Produkt → skeptisch.
+2. **METHODEN-NAMEN**: Wissenschaftliche Namen (LSTM, FEM, Bayes, DoE) → Forschung. Kommerzielle Namen (PostgreSQL, ANSYS) → rote Flagge.
+3. **PARAPHRASE-FÄHIGKEIT**: Kann er den Antrag in einem Absatz zusammenfassen? Ja → gut. Nein → Nachforderung.
+4. **SCHEITERN-KÖNNEN**: Ein Szenario, in dem das Vorhaben komplett scheitert.
 
 ## Die 5 entscheidenden Regeln
 
-Wenn du nur 5 Dinge richtig machst, dann diese. Sie entscheiden über Bewilligung oder Ablehnung. Alles andere ist Optimierung.
-
-1. **Wissenslücke als Eröffnung**, nicht Unternehmen/Produkt. Erster Satz = offenes Problem.
-2. **Wissenschaftliche Methoden mit Namen** benennen. Nicht "wir nutzen KI", sondern konkrete Verfahren.
-3. **Stand der Technik: Konkrete existierende Ansätze** mit Namen + deren spezifische Limitierungen. Zeitlich verankert: "Zum Vorhabenbeginn [Jahr]..."
-4. **Risiken: System-Ebene** mit AP-Bezug + Problemlösungsstrategie + Restrisiko. Formuliert als offene Forschungsfrage, nicht als KPI.
-5. **Zeichenlimits exakt einhalten** (95-100% Auslastung, per Code verifiziert).
+1. **Wissenslücke als Eröffnung**, nicht Unternehmen/Produkt.
+2. **Wissenschaftliche Methoden mit Namen** benennen.
+3. **SdT: Konkrete bestehende Ansätze** mit Namen + Limitierungen. Zeitlich: "Zum Vorhabenbeginn [Jahr]..."
+4. **Risiken: System-Ebene** mit AP-Bezug + Problemlösungsstrategie + Restrisiko. Als Forschungsfrage.
+5. **Zeichenlimits exakt** (95-100%, per Code verifiziert).
 
 ## Reference-Dateien
 
-Lies diese, wenn du sie für eine Phase brauchst:
-- `references/pruefkriterien.md` — Die drei Prüfkriterien der BSFZ, Negativlisten
-- `references/stilregeln.md` — Verdichtungstechniken, Formulierungsmuster, Vokabular-Regeln
-- `references/antragsstruktur.md` — Sektionen, Zeichenlimits, Arbeitsplan-Struktur
-- `references/nachforderungen.md` — Anti-Pattern-Katalog aus echten BSFZ-Nachforderungen
+- `references/pruefkriterien.md` — Prüfkriterien, Negativlisten
+- `references/stilregeln.md` — Verdichtung, Vokabular, Formulierungsmuster
+- `references/antragsstruktur.md` — Sektionen, Limits, AP-Struktur
+- `references/nachforderungen.md` — Anti-Patterns aus echten Nachforderungen
 - `references/beispiele.md` — Echte bewilligte Antragstexte als Qualitätsanker
 
 ---
@@ -42,130 +37,131 @@ Lies diese, wenn du sie für eine Phase brauchst:
 ## Phase 1: Transkript-Interpretation
 
 ### Ziel
-Aus dem Rohmaterial ein strukturiertes Briefing destillieren — die einzige Grundlage für Phase 2.
+Strukturiertes Briefing + gezielte Rückfragen + Forschungsnarrativ.
 
 ### Vorgehen
 
-Das Transkript wird in **Produktsprache** sein. Deine Aufgabe ist nicht bloße Extraktion, sondern **Interpretation**. Wenn der Kunde sagt "wir haben X gebaut", frage dich:
-- Welche **Wissenslücke** hat er dabei geschlossen?
-- Was war **unklar**, bevor er angefangen hat?
-- Wo hätte es **scheitern** können?
+Das Transkript ist in **Produktsprache**. Deine Aufgabe ist **Interpretation**, nicht Extraktion. Bei "wir haben X gebaut" frage dich: Welche Wissenslücke wurde geschlossen? Was war unklar? Wo hätte es scheitern können?
 
-Diese Fragen stehen nicht explizit im Transkript — du musst sie aus dem Kontext ableiten.
-
-**Behalte technische Fachbegriffe** aus dem Transkript. Ersetze aber Business-Vokabular: "Churn" → "Nutzungsabbruch", "Attribution" → "Kanalwirkungsanalyse", "Conversion" → "Übergangswahrscheinlichkeit", "KPI" → "Kenngröße", "ROI" → nie nennen, "Customer Journey" → "Nutzungsverlauf", "Retention" → "Verbleibswahrscheinlichkeit".
+**Behalte technische Fachbegriffe.** Ersetze Business-Vokabular: "Churn" → "Nutzungsabbruch", "Attribution" → "Kanalwirkungsanalyse", "Conversion" → "Übergangswahrscheinlichkeit", "KPI" → "Kenngröße", "ROI" → nie, "Customer Journey" → "Nutzungsverlauf", "Retention" → "Verbleibswahrscheinlichkeit".
 
 ### Briefing-Struktur
 
 ```
-BRIEFING: [Projektname/Arbeitstitel]
+BRIEFING: [Projektname]
 
 1. PROJEKTKERN
-   - Was wird entwickelt/erforscht?
-   - Welches fundamentale Problem wird gelöst?
-   - Für welche Domäne?
+   - Was wird erforscht? Welches Problem? Welche Domäne?
 
 2. TECHNISCHE SUBSTANZ
-   - Wissenschaftliche Methoden und Verfahren
-   - Grundlagen: Daten, Materialien, Werkstoffe, Reagenzien — je nach Fachgebiet
-   - Quantifizierte Ziele: Metriken, Schwellenwerte, Toleranzen
-   - Konkrete Modelle/Verfahren mit wissenschaftlichen Namen
-   - GETRENNT: Infrastruktur/Tools/Geräte/Lieferanten — nur Kontext
+   - Wissenschaftliche Methoden/Verfahren
+   - Grundlagen (Daten, Materialien, Werkstoffe — je nach Fachgebiet)
+   - Quantifizierte Ziele
+   - GETRENNT: Infrastruktur/Tools — nur Kontext
 
-3. STAND DER TECHNIK & ABGRENZUNG
-   - Was existiert bereits? (Konkrete Produkte, Ansätze MIT NAMEN)
-   - Warum reichen bestehende Ansätze nicht?
-   - Was genau ist neu am eigenen Ansatz?
-   - Literatur / DOIs (falls im Transkript erwähnt)
+3. STAND DER TECHNIK
+   - Bestehende Produkte/Ansätze MIT NAMEN + Limitierungen
+   - Was ist neu? Literatur/DOIs?
 
 4. ARBEITSSCHRITTE
-   - Chronologische/logische Abfolge
-   - Eingesetzte Methoden pro Schritt
-   - Zeitachse (falls genannt)
+   - Chronologische Abfolge, Methoden pro Schritt, Zeitachse
 
-5. RISIKEN & UNWÄGBARKEITEN
-   Extraktionsheuristik: Suche nach Stellen, wo der Kunde sagt "Das war
-   schwierig", "Da haben wir lange gebraucht", "Das hat nicht funktioniert",
-   "Da mussten wir umdenken". Wende das Gedankenspiel an: "Wenn Geld und
-   Personal keine Rolle spielten — was hätte TROTZDEM schiefgehen können?"
-   Die Antwort ist ein FuE-Risiko.
+5. RISIKEN
+   Extraktionsheuristik: Suche "Das war schwierig", "Da mussten wir umdenken".
+   Gedankenspiel: "Wenn Geld/Personal keine Rolle spielten — was hätte
+   TROTZDEM schiefgehen können?"
 
 6. ROHMATERIAL
-   - Gute Originalzitate, Zahlen, Fachbegriffe
+   - Originalzitate, Zahlen, Fachbegriffe
 ```
 
 ### Bescheinigungsfähigkeits-Check
 
-Bevor du weitermachst, prüfe gegen `references/pruefkriterien.md`:
-- Ist das Vorhaben **offensichtlich nicht bescheinigungsfähig**? (Reine Konfiguration, Post-Prototyp-Marktanpassung, Routine-Engineering ohne Wissenslücke)
-- Falls ja: Sage das dem Nutzer direkt und schlage vor, wie das Vorhaben ggf. umgeframed werden könnte.
+Prüfe gegen `references/pruefkriterien.md`. Offensichtlich nicht bescheinigungsfähig? → Direkt sagen + ggf. Reframing vorschlagen.
 
-### Kritische Prüfung
+### Gezielte Rückfragen (spezifisch, nicht generisch)
 
-Prüfe das Briefing gegen die drei BSFZ-Kriterien:
-1. **Neuartigkeit:** Genug Material für SdT-Abgrenzung?
-2. **Risiko:** Echte technische Unwägbarkeiten, die zum Scheitern führen könnten?
-3. **Planmäßigkeit:** Genug Arbeitsschritte für nachvollziehbaren Plan?
+Analysiere die Lücken im Briefing und formuliere **projektspezifische** Rückfragen. Nicht "Gibt es DOIs?" sondern Fragen, die sich aus dem konkreten Projekt ableiten:
 
-Bei kritischen Lücken **proaktiv** kommunizieren: "Für einen bewilligungsfähigen Antrag brauchen wir noch: [X]."
+Beispiele für gute, spezifische Rückfragen:
+- "Sie sagten, 7-8 Verfahren sind gescheitert — welche drei waren die vielversprechendsten und woran genau scheiterten sie?"
+- "Welche konkreten NLP-Schritte durchläuft eine Nachricht? (Tokenisierung, NER, Dependency Parsing, Koreferenzauflösung?)"
+- "Gibt es ein formales Modell (Ontologie, Schema), gegen das die KI-Ergebnisse validiert werden?"
+- "Welche Genauigkeits-/Qualitätsschwellen haben Sie definiert, ab denen das System unbrauchbar wäre?"
 
-### Output Phase 1
+Frage immer nach:
+- Externen Auftragnehmern
+- DOIs / wissenschaftlichen Publikationen
+- Dem genauen Vorhabenzeitraum
 
-Präsentiere das Briefing. Stelle gezielte Fragen zu Lücken, plus:
-- Gibt es externe Auftragnehmer?
-- Gibt es wissenschaftliche Publikationen / DOIs?
-- Gibt es quantifizierte Zielparameter (Genauigkeit, Schwellenwerte)?
+### Forschungsnarrativ
 
-Gehe erst zu Phase 2, wenn der Nutzer bestätigt hat.
+**Der wichtigste Schritt.** Bevor du schreibst, formuliere in 3-4 Sätzen das Forschungsnarrativ — die Essenz, warum dieses Vorhaben Forschung ist:
+
+```
+FORSCHUNGSNARRATIV:
+
+1. WISSENSFRAGE: [Was ist die offene Frage, die dieses Vorhaben beantwortet?]
+   → Nicht "Können wir X bauen?" sondern "Ist es möglich, dass [Methode]
+   unter [Bedingung] zuverlässig [Ergebnis] liefert?"
+
+2. WARUM OFFEN: [Warum konnte man diese Frage zum Startzeitpunkt nicht
+   mit bekannten Mitteln beantworten?]
+
+3. UNSICHERHEIT: [Was genau macht den Lösungsweg unsicher — nicht schwierig,
+   sondern unsicher?]
+```
+
+Präsentiere Briefing + Rückfragen + Forschungsnarrativ dem Nutzer. Das Narrativ ist der Kompass für Phase 2 — wenn es nicht überzeugt, wird der Antrag nicht überzeugen.
+
+Gehe erst zu Phase 2, wenn der Nutzer Briefing UND Narrativ bestätigt hat.
 
 ---
 
 ## Phase 2: Antragserstellung
 
 ### Ziel
-Aus dem Briefing einen Antrag formen, der die vier Gutachter-Signale maximiert.
+Einen Antrag formen, der die vier Gutachter-Signale maximiert.
 
 ### Vorgehen
 
-Lies `references/stilregeln.md`, `references/antragsstruktur.md` und `references/beispiele.md`. Die Beispiele in `beispiele.md` zeigen das Qualitätsniveau, das du erreichen musst.
+Lies `references/stilregeln.md`, `references/antragsstruktur.md` und `references/beispiele.md`.
 
-Schreibe die Sektionen in dieser Reihenfolge:
+Das Forschungsnarrativ aus Phase 1 ist der Kompass: Jede Sektion muss dazu beitragen, die Wissensfrage, die Offenheit und die Unsicherheit zu belegen.
+
+Schreibe in dieser Reihenfolge:
 
 #### Schritt 1: Ziel-Sektion (1.500 Zeichen, ~200-220 Wörter)
 
-Die Sektion, die 60% der Bewertung bestimmt. Lies das Beispiel in `references/beispiele.md` als Qualitätsanker.
+60% der Bewertung. Lies das Beispiel in `references/beispiele.md`.
 
 **Aufbau — zwei Register:**
-1. **Eröffnung IN DER SPRACHE DER DOMÄNE** (2-3 Sätze, ~400 Zeichen): Konkrete, domänenspezifische Probleme benennen. Der Gutachter muss sofort verstehen, WO das Problem existiert. Fachbegriffe der Branche nutzen.
-2. **Stand der Forschung als Kontrast** (2-3 Sätze, ~350 Zeichen): Warum lösen aktuelle Ansätze das Problem nicht? Bestehende Ansätze mit Namen benennen, deren Limitierungen aufzeigen.
-3. **Forschungsansatz AUF METHODENEBENE** (3-4 Sätze, ~500 Zeichen): Was soll untersucht werden? Wissenschaftliche Methoden benennen, NICHT kommerzielle Tools. Formulierung: "Ziel ist es zu untersuchen, ob..." oder "Unser Ziel in [Jahr] war, zu untersuchen, ob..."
-4. **Angestrebtes Ergebnis** (1-2 Sätze, ~250 Zeichen): Was existiert am Ende als validiertes Verfahren/Erkenntnis? Mindestens 1-2 messbare Zielparameter nennen.
+1. **Eröffnung IN DOMÄNENSPRACHE** (~400 Z.): Konkrete, domänenspezifische Probleme. Der Gutachter muss sofort verstehen, WO das Problem existiert.
+2. **SdT als Kontrast** (~350 Z.): Aktuelle Ansätze mit Namen + Limitierungen.
+3. **Forschungsansatz AUF METHODENEBENE** (~500 Z.): "Ziel war es zu untersuchen, ob..." Wissenschaftliche Methoden, NICHT kommerzielle Tools.
+4. **Ergebnis mit Zielparametern** (~250 Z.): Validiertes Verfahren/Erkenntnis + messbare Parameter.
 
-**Vokabular-Regeln (entscheidend):**
-- Im EIGENEN Ansatz: Keine kommerziellen Produktnamen. Nur wissenschaftliche Methoden.
-- Im STAND DER TECHNIK: Kommerzielle Produktnamen ERLAUBT und ERWÜNSCHT — sie zeigen dem Gutachter, dass der Antragsteller den Markt kennt (z.B. "Bestehende TOS wie NavisN4, RBS, SAP können nur...").
+**Vokabular:** Im eigenen Ansatz keine kommerziellen Namen. Im SdT kommerzielle Namen ERLAUBT und ERWÜNSCHT.
 
-#### Schritt 2: Detaillierter Arbeitsplan (Anlage)
+#### Schritt 2: Detaillierter Arbeitsplan (separate Datei)
 
 4-6 Hauptarbeitspakete mit je 2-3 Unter-APs. Jedes Unter-AP:
-- Aktives Verb am Anfang
-- Konkrete Tätigkeitsbeschreibung (2-3 Sätze)
-- Methode in Klammern
-- Ergebnisdefinition (konkretes, messbares Artefakt)
+- Aktives Verb, Tätigkeitsbeschreibung (2-3 Sätze), Methode in Klammern
+- Ergebnisdefinition (konkretes Artefakt)
 - Zeitraum (Monatsangaben)
 
-**Anti-SdT-Begründungen nur dort**, wo der Kunde im Transkript erklärt hat, WARUM Standard-Tools nicht reichten. Nicht bei jedem AP generisch einfügen — das wirkt künstlich.
+Anti-SdT-Begründungen nur wo aus dem Transkript begründbar.
 
-Logischer Aufbau je nach Fachgebiet:
+Aufbau je nach Fachgebiet:
 - **Software/KI:** Datenaufbereitung → Modellentwicklung → Integration → Evaluation
 - **Ingenieurwesen:** Analyse/Entwurf → Simulation → Prototyp → Prüfung
 - **Chemie/Material:** Synthese → Charakterisierung → Optimierung → Scale-up
-- **Biotech/Medizin:** Methodenentwicklung → Screening → Optimierung → Validierung
+- **Biotech:** Methodenentwicklung → Screening → Optimierung → Validierung
 - **Sozialwissenschaften:** Instrumentenentwicklung → Erhebung → Auswertung → Validierung
 
 #### Schritt 3: Arbeiten-Fließtext (1.000 Zeichen, ~130-150 Wörter)
 
-Verdichte den Arbeitsplan. Strenger Rhythmus: Jeder Satz beginnt mit einem Temporalmarker ("Zunächst...", "Darauf aufbauend...", "Nun...", "Final..."). Jeder Schritt enthält die Methode in Klammern. "&" statt "und" durchgehend.
+Verdichte den Arbeitsplan. Temporalmarker: "Zunächst... Darauf... Nun... Final..." Methode in Klammern. "&" durchgehend.
 
 #### Schritt 4: Arbeitspakete gekürzt
 
@@ -176,95 +172,157 @@ Verdichte den Arbeitsplan. Strenger Rhythmus: Jeder Satz beginnt mit einem Tempo
 
 #### Schritt 5: Neuartigkeit (500 Zeichen, ~65-75 Wörter)
 
-1. "Zum Vorhabenbeginn [Jahr]..." — SdT zeitlich verankern
-2. Bestehende Ansätze/Produkte mit Namen benennen (hier SIND kommerzielle Namen richtig)
-3. Ggf. DOI-Referenz
-4. "Neu:" gefolgt von Bulletpoints der Neuerungen
+1. "Zum Vorhabenbeginn [Jahr]..." 2. Bestehende Ansätze mit Namen. 3. Ggf. DOI. 4. "Neu:" + Bullets.
 
 #### Schritt 6: Risiko (1.000 Zeichen, ~130-150 Wörter)
 
-Lies das Beispiel in `references/beispiele.md` als Qualitätsanker.
-
-2 Risikoblöcke, jeder enthält:
-1. "Unklar ist, ob [MODELLNAME] [INPUTVARIABLEN] [VERSAGENSKRITERIUM]" — nach dem "ob" müssen drei Dinge stehen: das konkrete Modell/Verfahren, die konkreten Eingangsvariablen, und das konkrete Scheiterns-Szenario.
-2. Problemlösungsstrategie: "Dem soll mit [A], [B] & [C] entgegengewirkt werden."
-3. Restrisiko: "Dennoch könnte d. Vorhaben scheitern, wenn [konkrete Bedingung]."
-
-**NICHT akzeptiert:** Methodeninhärente Standardrisiken (Overfitting, Klassenungleichgewicht, fehlende Ground-Truth, unvollständige Daten, Materialtoleranzen als Pauschalaussage). Stattdessen: Systemrisiken, Wechselwirkungen, Paradigmenkonflikte, Übertragbarkeitsprobleme.
+2 Blöcke. Jeder: "Unklar ist, ob [MODELL] [INPUTS] [VERSAGEN]." + Lösungsstrategie + Restrisiko.
+NICHT: Methodeninhärente Standardrisiken. Stattdessen: Systemrisiken, Paradigmenkonflikte, Übertragbarkeit.
 
 #### Schritt 7: Schlagwörter (10 Stück)
 
-Mix aus Forschungsfeld, Methoden, Domäne, Technologien.
-
 #### Schritt 8: Titel (~150 Zeichen)
-
-Muster: [Methode]-basierte/gestützte [Lösung/Framework] zur [Zielprozess] in/für [Domäne]
 
 ### Zeichenkontrolle
 
-Nach dem Schreiben jeder Sektion: **Zeichen per Code zählen.**
+Per Code nach jeder Sektion:
 ```python
 print(f"{len(text)} / {limit} Zeichen ({len(text)/limit*100:.0f}%)")
 ```
-- Wenn >100%: Kürze mit Verdichtungstechniken aus `references/stilregeln.md`
-- Wenn <95%: Arbeite weitere Details aus dem Briefing ein
-- Ziel: **95-100%** pro Sektion. Jedes ungenutzte Zeichen ist verschwendetes Argumentationspotenzial.
-
-### Output Phase 2
-
-Präsentiere alle Sektionen mit Code-verifizierter Zeichenzählung. Der Nutzer kann gezielt Feedback geben.
+Ziel: **95-100%**. Wenn >100%: verdichten. Wenn <95%: Details einarbeiten.
 
 ---
 
-## Phase 3: Qualitätsprüfung
+## Phase 3: Qualitätsprüfung & Analyse
 
-### Durchgang 1: Gutachter-Simulation
+### Durchgang 1: Gutachter-Paraphrase
 
-Schreibe eine Paraphrase des Antrags — exakt so, wie sie im Bescheid stehen würde:
+Schreibe die Bescheid-Paraphrase:
+> "Ziel des Vorhabens ist [X]. Bisher [SdT]. Im Gegensatz dazu [Ansatz]. Dadurch wird SdT übertroffen. → Neuartigkeit erfüllt.
+> Risiko: [R1]. Weiteres: [R2]. → Unwägbarkeit erfüllt.
+> Strukturierter Arbeitsplan erkennbar. → Planmäßigkeit erfüllt."
 
-> "Ziel des Vorhabens ist [Paraphrase Ziel]. Bisher werden [SdT]. Im Gegensatz dazu soll [Neuer Ansatz]. Dadurch wird der Stand der Technik übertroffen. Anhand der Arbeitspakete lässt sich erkennen, dass es sich nicht um routinemäßige Arbeiten handelt. → Kriterium Neuartigkeit erfüllt.
-> Ein Risiko bezieht sich auf [Risiko 1]. Ein weiteres auf [Risiko 2]. → Kriterium Unwägbarkeit erfüllt.
-> Ein inhaltlich strukturierter Arbeitsplan ist erkennbar. → Kriterium Planmäßigkeit erfüllt."
+Stockst du? → Stelle im Antrag nachschärfen.
 
-Wenn du beim Schreiben dieser Paraphrase stockst oder raten musst → die betreffende Stelle im Antrag nachschärfen.
+### Durchgang 2: Simulierte Nachforderung
 
-### Durchgang 2: Nachforderungs-Resilienz
+Versetze dich in einen kritischen BSFZ-Gutachter und schreibe die **konkreten Nachforderungsfragen**, die er stellen würde. Nutze die echten Trigger-Formulierungen aus `references/nachforderungen.md`.
 
-Prüfe gegen die Checkliste in `references/nachforderungen.md`. Jeder nicht-erfüllte Punkt wird korrigiert.
+Für jede simulierte Frage:
+- Prüfe, ob der Antrag sie bereits beantwortet
+- Wenn ja → notiere als "abgedeckt" in der Analyse
+- Wenn nein → **überarbeite den Antrag**, sodass die Frage beantwortet wird
 
-### Durchgang 3: Zeichenlimits verifizieren
+Wenn du keine überzeugenden Nachforderungsfragen formulieren kannst → der Antrag ist robust.
 
-Alle Sektionen nochmals per Code zählen. Limits dürfen NICHT überschritten sein.
+### Durchgang 3: Zeichenverifikation per Code
 
-### Korrektur
-
-Korrigiere alle Mängel direkt. Präsentiere dem Nutzer den geprüften Entwurf mit Zeichenzählung.
+Alle Sektionen nochmals zählen. Kein Limit darf überschritten sein.
 
 ---
 
-## Phase 4: Dokument-Output
+## Phase 4: Output — Drei Dateien erstellen
 
-Erstelle das .docx. Falls eine Docx-Skill-Anleitung unter `/mnt/skills/public/docx/SKILL.md` existiert, befolge deren Anweisungen. Sonst nutze Python-docx oder docx-js.
+Erstelle einen `output/`-Ordner im Arbeitsverzeichnis und lege dort drei Dateien ab:
 
-### Dokument-Aufbau
+### Datei 1: `output/antrag.md` — Der Antragstext
 
-**Seite 1+: Antragstext**
-- Titel: Arial 14pt Bold
-- Sektionsüberschriften: Arial 12pt Bold — die exakten Fragetexte als Überschriften:
-  - "Was ist das Ziel Ihres Vorhabens? Welche Herausforderung oder Problemstellung soll mit dem Vorhaben gelöst bzw. welche Wissenslücke soll mit dem Vorhaben geschlossen werden?"
-  - "Inwieweit hebt sich das angestrebte Produkt, Verfahren oder die Dienstleistung vom Stand der Technik ab?"
-  - "Welche Arbeiten werden durchgeführt, um der zuvor benannten Herausforderung oder Problemstellung zu begegnen bzw. um die Wissenslücke zu schließen?"
-  - "Welche wissenschaftlichen, technischen und/oder methodischen Unsicherheiten bestehen bei der Bearbeitung der Herausforderung oder Problemstellung?"
-  - "Schlagwörter"
-- Fließtext: Arial 11pt
-- Zeichenzählung unter jeder Sektion: graue Schrift, z.B. "(1.485 / 1.500 Zeichen)"
-- Seitenformat: A4, Ränder 1 Zoll
+Enthält alle Sektionen versandfertig, in der Formular-Reihenfolge:
 
-**Folgeseite(n): Arbeitsplan-Anlage**
-- "Arbeitsplan – [Projekttitel]"
-- Detaillierter Arbeitsplan mit allen APs, Unter-APs, Zeitachse
+```markdown
+# [TITEL]
 
-**Folgeseite: Arbeitspakete (Kurzfassung)**
+## Was ist das Ziel Ihres Vorhabens? [...]
+[Ziel-Text]
+(X / 1.500 Zeichen)
+
+## Inwieweit hebt sich das angestrebte Produkt [...] vom Stand der Technik ab?
+[Neuartigkeit-Text]
+(X / 500 Zeichen)
+
+## Welche Arbeiten werden durchgeführt [...]?
+[Arbeiten-Fließtext]
+(X / 1.000 Zeichen)
+
+## Welche wissenschaftlichen [...] Unsicherheiten bestehen [...]?
+[Risiko-Text]
+(X / 1.000 Zeichen)
+
+## Schlagwörter
+[10 Schlagwörter]
+```
+
+Zusätzlich am Ende: Arbeitspakete (Kurzfassung).
+
+Dieser Text kann direkt in das BSFZ-Formular kopiert werden.
+
+### Datei 2: `output/arbeitsplan.md` — Der detaillierte Arbeitsplan
+
+Separate Datei, wird als Anlage eingereicht:
+
+```markdown
+# Arbeitsplan – [Projekttitel]
+
+## AP1 – [Thema] ([Methode]) [Zeitraum]
+
+### AP1.1 – [Titel]: [Zeitraum]
+[Beschreibung]
+**Ergebnis:** [Konkretes Artefakt]
+
+### AP1.2 – [Titel]: [Zeitraum]
+...
+```
+
+### Datei 3: `output/analyse.md` — Berater-Feedback
+
+Diese Datei verändert NICHT den Antragstext. Sie ist das strukturierte Feedback für den Berater.
+
+```markdown
+# Berater-Analyse: [Projekttitel]
+
+## Forschungsnarrativ
+[Die 3 Sätze aus Phase 1 — Wissensfrage, Warum offen, Unsicherheit]
+
+## Qualitätsbewertung pro Sektion
+
+### Ziel-Sektion
+- **Stärke:** [Was ist gut]
+- **BSFZ-Risiko:** [Wo könnte der Gutachter nachfragen]
+- **Berater prüfen:** [Was der Berater nochmal anschauen sollte]
+
+### Neuartigkeit
+- **Stärke:** [...]
+- **BSFZ-Risiko:** [...]
+- **Berater prüfen:** [...]
+
+[...für jede Sektion...]
+
+## Simulierte Nachforderung
+[Die konkreten Fragen, die ein kritischer BSFZ-Gutachter stellen könnte]
+
+Frage 1: "[Exakte Formulierung]"
+→ Status: ✅ Im Antrag abgedeckt / ⚠️ Teilweise / ❌ Nicht abgedeckt
+→ Handlungsempfehlung: [Was der Berater tun sollte]
+
+Frage 2: [...]
+
+## Offene Annahmen
+[Alle [ANNAHME: ...] aus dem Antrag, die vom Kunden bestätigt werden müssen]
+
+- [ ] [Annahme 1] — betrifft Sektion: [X]
+- [ ] [Annahme 2] — betrifft Sektion: [X]
+
+## Zeichenauslastung
+| Sektion | Zeichen | Limit | Auslastung |
+|---------|---------|-------|------------|
+| Titel   | X       | 150   | X%         |
+| Ziel    | X       | 1.500 | X%         |
+| ...     | ...     | ...   | ...        |
+```
+
+### Zusätzlich: .docx-Variante (optional)
+
+Falls der Nutzer eine .docx-Datei benötigt, erstelle sie zusätzlich. Falls eine Docx-Skill-Anleitung unter `/mnt/skills/public/docx/SKILL.md` existiert, befolge deren Anweisungen. Formatierung: Arial 11pt, Titel 14pt Bold, Überschriften 12pt Bold, A4, 1 Zoll Ränder, Zeichenzählung in grauer Schrift.
 
 ---
 
@@ -272,10 +330,10 @@ Erstelle das .docx. Falls eine Docx-Skill-Anleitung unter `/mnt/skills/public/do
 
 ```
 1. Nutzer gibt Meeting-Transkript
-2. Phase 1: Briefing interpretieren → Bescheinigungsfähigkeits-Check → Nutzer bestätigt
-3. Phase 2: Antrag schreiben → Zeichenkontrolle per Code → Nutzer sieht Vorschau
-4. Phase 3: Gutachter-Simulation + Nachforderungs-Check + Zeichenverifikation → Nutzer gibt frei
-5. Phase 4: .docx erstellen
+2. Phase 1: Briefing + spezifische Rückfragen + Forschungsnarrativ → Nutzer bestätigt
+3. Phase 2: Antrag schreiben → Zeichenkontrolle per Code
+4. Phase 3: Gutachter-Paraphrase + Simulierte Nachforderung + Zeichenverifikation
+5. Phase 4: Drei Dateien in output/ ablegen
 ```
 
-Zwischen jeder Phase aktiv Feedback einholen. Wenn der Nutzer nach Phase 1 bestätigt, können Phase 2 und 3 zusammen ausgeführt werden.
+Zwischen jeder Phase aktiv Feedback einholen. Wenn der Nutzer nach Phase 1 bestätigt, können Phase 2-4 zusammen ausgeführt werden.
