@@ -221,11 +221,13 @@ Alle Sektionen nochmals zählen. Kein Limit darf überschritten sein.
 
 ---
 
-## Phase 4: Output — Drei Dateien erstellen
+## Phase 4: Output — Kundenordner mit drei Dateien
 
-Erstelle einen `output/`-Ordner im Arbeitsverzeichnis und lege dort drei Dateien ab:
+Erstelle einen Kundenordner `output/[kundenname]/` im Arbeitsverzeichnis. Der Kundenname wird aus dem Transkript abgeleitet (Firmenname oder Projektname, als slug: Kleinbuchstaben, Bindestriche statt Leerzeichen, keine Sonderzeichen). Beispiele: `output/lingoda/`, `output/medocheck/`, `output/containerterminal-htg/`.
 
-### Datei 1: `output/antrag.md` — Der Antragstext
+Lege dort drei Dateien ab:
+
+### Datei 1: `output/[kundenname]/antrag.md` — Der Antragstext
 
 Enthält alle Sektionen versandfertig, in der Formular-Reihenfolge:
 
@@ -256,7 +258,7 @@ Zusätzlich am Ende: Arbeitspakete (Kurzfassung).
 
 Dieser Text kann direkt in das BSFZ-Formular kopiert werden.
 
-### Datei 2: `output/arbeitsplan.md` — Der detaillierte Arbeitsplan
+### Datei 2: `output/[kundenname]/arbeitsplan.md` — Der detaillierte Arbeitsplan
 
 Separate Datei, wird als Anlage eingereicht:
 
@@ -273,7 +275,7 @@ Separate Datei, wird als Anlage eingereicht:
 ...
 ```
 
-### Datei 3: `output/analyse.md` — Berater-Feedback
+### Datei 3: `output/[kundenname]/analyse.md` — Berater-Feedback
 
 Diese Datei verändert NICHT den Antragstext. Sie ist das strukturierte Feedback für den Berater.
 
@@ -333,7 +335,7 @@ Falls der Nutzer eine .docx-Datei benötigt, erstelle sie zusätzlich. Falls ein
 2. Phase 1: Briefing + spezifische Rückfragen + Forschungsnarrativ → Nutzer bestätigt
 3. Phase 2: Antrag schreiben → Zeichenkontrolle per Code
 4. Phase 3: Gutachter-Paraphrase + Simulierte Nachforderung + Zeichenverifikation
-5. Phase 4: Drei Dateien in output/ ablegen
+5. Phase 4: Drei Dateien in output/[kundenname]/ ablegen
 ```
 
 Zwischen jeder Phase aktiv Feedback einholen. Wenn der Nutzer nach Phase 1 bestätigt, können Phase 2-4 zusammen ausgeführt werden.
