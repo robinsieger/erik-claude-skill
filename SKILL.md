@@ -242,168 +242,127 @@ Alle Sektionen nochmals zählen. Kein Limit darf überschritten sein.
 
 ---
 
-## Phase 4: Output — Kundenordner mit fünf Dateien
+## Phase 4: Output — Kundenordner
 
-Erstelle einen Kundenordner `output/[kundenname]/` im Arbeitsverzeichnis. Der Kundenname wird aus dem Transkript abgeleitet (Firmenname oder Projektname, als slug: Kleinbuchstaben, Bindestriche statt Leerzeichen, keine Sonderzeichen). Beispiele: `output/lingoda/`, `output/medocheck/`, `output/containerterminal-htg/`.
+Erstelle einen Kundenordner `output/[kundenname]/` im Arbeitsverzeichnis. Der Kundenname wird aus dem Transkript abgeleitet (Firmenname oder Projektname, als slug: Kleinbuchstaben, Bindestriche statt Leerzeichen, keine Sonderzeichen).
 
-Lege dort fünf Dateien ab:
+Lege dort diese Dateien ab:
 
-### Datei 1: `output/[kundenname]/antrag.md` — Der Antragstext
+### Datei 1: `antrag.md` — Hauptvariante (versandfertig)
 
-Enthält alle Sektionen versandfertig, in der Formular-Reihenfolge:
+Alle Sektionen in BSFZ-Formular-Reihenfolge + Arbeitspakete (Kurzfassung). Kann direkt ins Formular kopiert werden. Zeichenzählung unter jeder Sektion.
 
-```markdown
-# [TITEL]
+### Datei 2: `antrag-variante-b.md` — Berater-Variante
 
-## Was ist das Ziel Ihres Vorhabens? [...]
-[Ziel-Text]
-(X / 1.500 Zeichen)
+Zweite Variante mit kreativem Reframing:
+- **Mutigeres Forschungsnarrativ** auf höherer Abstraktionsebene
+- **Wissenschaftlichere Konzepte** (Ontologie, Wissensgraph etc.), die zum Projekt passen aber im Transkript nicht explizit genannt wurden
+- **Stärkere Risiken:** Systemrisiken, Paradigmenkonflikte, paradoxe Rückkopplungseffekte
+- Alle Freiheiten als `[BERATER-ANNAHME: ...]` markiert
 
-## Inwieweit hebt sich das angestrebte Produkt [...] vom Stand der Technik ab?
-[Neuartigkeit-Text]
-(X / 500 Zeichen)
+Der Berater pickt die besten Formulierungen und übernimmt sie nach Kundenabstimmung in die Hauptvariante.
 
-## Welche Arbeiten werden durchgeführt [...]?
-[Arbeiten-Fließtext]
-(X / 1.000 Zeichen)
+### Datei 3: `arbeitsplan.md` — Detaillierter Arbeitsplan (Anlage)
 
-## Welche wissenschaftlichen [...] Unsicherheiten bestehen [...]?
-[Risiko-Text]
-(X / 1.000 Zeichen)
+4-6 APs mit je 2-3 Unter-APs, Zeitachse, Ergebnisse. Wird als Anlage eingereicht.
 
-## Schlagwörter
-[10 Schlagwörter]
-```
+### Datei 4: `analyse.md` — Berater-Analyse
 
-Zusätzlich am Ende: Arbeitspakete (Kurzfassung).
-
-Dieser Text kann direkt in das BSFZ-Formular kopiert werden.
-
-### Datei 2: `output/[kundenname]/arbeitsplan.md` — Der detaillierte Arbeitsplan
-
-Separate Datei, wird als Anlage eingereicht:
-
-```markdown
-# Arbeitsplan – [Projekttitel]
-
-## AP1 – [Thema] ([Methode]) [Zeitraum]
-
-### AP1.1 – [Titel]: [Zeitraum]
-[Beschreibung]
-**Ergebnis:** [Konkretes Artefakt]
-
-### AP1.2 – [Titel]: [Zeitraum]
-...
-```
-
-### Datei 3: `output/[kundenname]/analyse.md` — Berater-Feedback
-
-Diese Datei verändert NICHT den Antragstext. Sie ist das strukturierte Feedback für den Berater.
+Unabhängige Prüfung BEIDER Varianten. Verändert nicht den Antragstext. Struktur:
 
 ```markdown
 # Berater-Analyse: [Projekttitel]
 
-## ⚡ Sofort-Handlungsbedarf (Top 3)
-
-Die wichtigsten Punkte, die der Berater VOR Einreichung prüfen/ändern sollte:
-
-1. [Wichtigster Punkt — z.B. "DOI ergänzen in Neuartigkeits-Sektion"]
-2. [Zweitwichtigster — z.B. "Kunde muss NLP-Pipeline-Schritte bestätigen"]
-3. [Drittwichtigster — z.B. "Vorhabenzeitraum klären: 2021 oder 2022?"]
+## ⚡ Sofort-Handlungsbedarf (Top 5)
+Die wichtigsten Punkte VOR Einreichung. Nummeriert nach Priorität.
 
 ## Forschungsnarrativ
-[Die 3 Sätze aus Phase 1 — Wissensfrage, Warum offen, Unsicherheit]
+Die 3 Sätze aus Phase 1 (Wissensfrage, Warum offen, Unsicherheit).
+
+## Varianten-Vergleich
+
+| Sektion | Variante A | Variante B | Empfehlung |
+|---------|-----------|-----------|------------|
+| Titel   | [Titel A] | [Titel B] | [Welchen nehmen / kombinieren] |
+| Ziel    | [Stärke/Schwäche] | [Stärke/Schwäche] | [Konkret: was übernehmen] |
+| ...     | ...       | ...       | ...        |
 
 ## Simulierte Nachforderung
 
-Was würde ein kritischer BSFZ-Gutachter fragen? Für jede Frage:
-- Die exakte Formulierung (im Stil echter BSFZ-Nachforderungen)
-- Ob der Antrag sie beantwortet
-- Was der Berater tun sollte
+Für BEIDE Varianten getrennt geprüft. Der Berater sieht sofort:
+Variante A hätte Nachforderung X bekommen, Variante B nicht.
 
-Frage 1: "[Exakte Formulierung]"
-→ Status: ✅ Abgedeckt / ⚠️ Teilweise / ❌ Offen
-→ Handlungsempfehlung: [Konkret — nicht "kein Handlungsbedarf" wenn es
-   der häufigste Nachforderungsgrund ist]
+### Variante A
+Frage 1: "[BSFZ-Formulierung]"
+→ Status: ✅ / ⚠️ / ❌
+→ Handlungsempfehlung: [Konkret]
 
-WICHTIG: Bei "⚠️ Teilweise" immer eine konkrete Handlungsempfehlung
-geben. "Teilweise abgedeckt" ohne Aktion ist für den Berater nutzlos.
+### Variante B
+Frage 1: "[BSFZ-Formulierung]"
+→ Status: ✅ / ⚠️ / ❌
+→ Handlungsempfehlung: [Konkret]
 
-## Qualitätsbewertung pro Sektion
+Bei ⚠️ IMMER eine konkrete Handlungsempfehlung.
+
+## Sektions-Tiefenanalyse
 
 ### Ziel-Sektion
+- **Gutachter-Paraphrase:** [Kann er es in eigenen Worten zusammenfassen?]
 - **Stärke:** [Was ist gut]
-- **BSFZ-Risiko:** [Wo könnte der Gutachter nachfragen]
-- **Berater prüfen:** [Was der Berater nochmal anschauen sollte]
+- **BSFZ-Risiko:** [Wo könnte nachgefragt werden]
+- **Berater-Aktion:** [Was tun]
 
 [...für jede Sektion...]
 
 ## Offene Annahmen
-[Alle Annahmen, die vom Kunden bestätigt werden müssen]
-
-- [ ] [Annahme 1] — betrifft Sektion: [X]
-- [ ] [Annahme 2] — betrifft Sektion: [X]
+- [ ] [Annahme] — betrifft: [Sektion], Variante: [A/B/beide]
 
 ## Zeichenauslastung
-| Sektion | Zeichen | Limit | Auslastung |
-|---------|---------|-------|------------|
-| Titel   | X       | 150   | X%         |
-| Ziel    | X       | 1.500 | X%         |
-| ...     | ...     | ...   | ...        |
+| Sektion | Var. A | Var. B | Limit |
+|---------|--------|--------|-------|
+| Titel   | X (Y%) | X (Y%) | 150   |
+| Ziel    | X (Y%) | X (Y%) | 1.500 |
+| ...     | ...    | ...    | ...   |
 ```
 
-### Datei 4: `output/[kundenname]/antrag-variante-b.md` — Berater-Variante
+### Datei 5: `[kundenname].docx` — Word-Gesamtdokument
 
-Eine zweite Antragsvariante mit mehr kreativer Freiheit. Die Hauptvariante (`antrag.md`) bleibt strikt am Transkript — alles ist belegbar und verifizierbar. Die Berater-Variante darf darüber hinausgehen:
+Benannt nach dem Kunden (z.B. `lingoda.docx`, `medocheck.docx`). Enthält ALLES — professionell formatiert. Nutze Python-docx (oder falls `/mnt/skills/public/docx/SKILL.md` existiert, deren Anweisungen).
 
-**Was die Berater-Variante anders macht:**
-- **Mutigeres Forschungsnarrativ:** Das Projekt wird auf einer höheren Abstraktionsebene geframed. Statt "ML-basierte Abbruchprognose" → "Multimodale verhaltensbezogene Modellierung zur Erkennung von Beteiligungsdrift". Die dahinterliegende Forschungsfrage wird stärker betont.
-- **Wissenschaftlichere Konzepte:** Plausible Forschungskonzepte einführen, die zum Projekt passen, aber im Transkript nicht explizit genannt wurden (z.B. Ontologie-Modellierung, Wissensgraph, Korpuslinguistik). Als [ANNAHME] markiert.
-- **Stärkere Risiken:** Systemrisiken statt Methodenrisiken — paradoxe Rückkopplungseffekte, emergente Wechselwirkungen, Paradigmenkonflikte. Risiken, die ein erfahrener Berater aus dem Projektkontext ableiten würde.
-- **Alternativtitel:** Wissenschaftlicher, weniger technisch
+**Aufbau:**
 
-**Format:** Gleiche Struktur wie antrag.md, aber alle Stellen mit kreativer Freiheit sind mit `[BERATER-ANNAHME: ...]` markiert. Der Berater sieht sofort, was verifiziert werden muss.
-
-**Sinn der zwei Varianten:** Der Berater liest beide, pickt die besten Formulierungen aus Variante B und übernimmt sie — nach Rücksprache mit dem Kunden — in die Hauptvariante. Variante B ist der kreative Input, Variante A die sichere Basis.
-
-### Datei 5: `output/[kundenname]/komplett.docx` — Word-Gesamtdokument
-
-Ein professionell formatiertes Word-Dokument, das alle Informationen visuell sauber aufbereitet. Falls eine Docx-Skill-Anleitung unter `/mnt/skills/public/docx/SKILL.md` existiert, befolge deren technische Anweisungen. Sonst nutze Python-docx.
-
-**Aufbau des .docx:**
-
-**Teil 1: Antragstext (Seite 1-2)**
+**Teil 1: Antragstext** (Seite 1-2)
 - Titel: Arial 14pt Bold, zentriert
-- Sektionsüberschriften: Arial 12pt Bold, die exakten BSFZ-Fragetexte
+- Sektionsüberschriften: Arial 12pt Bold, exakte BSFZ-Fragetexte
 - Fließtext: Arial 11pt
-- Zeichenzählung unter jeder Sektion: Arial 9pt, grau, kursiv, z.B. "(1.485 / 1.500 Zeichen)"
+- Zeichenzählung: Arial 9pt, grau, kursiv
 - Schlagwörter als nummerierte Liste
-- Seitenformat: A4, Ränder 2,5 cm
+- A4, Ränder 2,5 cm
 
-**Teil 2: Arbeitsplan-Anlage (ab Seite 3)**
-- Überschrift: "Arbeitsplan – [Projekttitel]"
-- Pro AP: Überschrift Arial 11pt Bold, Unter-APs als Unterüberschriften
-- Ergebnis-Zeilen: fett markiert
-- Zeitachse in der AP-Überschrift
+**Teil 2: Arbeitsplan-Anlage** (Seitenumbruch)
+- "Arbeitsplan – [Projekttitel]"
+- APs: Arial 11pt Bold, Unter-APs als Unterüberschriften
+- Ergebnis-Zeilen: fett
+- Zeitachse in AP-Überschrift
 
-**Teil 3: Arbeitspakete Kurzfassung (1 Seite)**
-- Kompakte nummerierte Liste mit Methoden in Klammern
+**Teil 3: Arbeitspakete Kurzfassung** (1 Seite)
 
-**Teil 4: Berater-Variante (ab nächste Seite)**
-- Seitenumbruch vor diesem Teil
-- Überschrift: "Variante B — Kreatives Reframing (zur Diskussion)"
-- Alle Sektionen der Berater-Variante, [BERATER-ANNAHME]-Markierungen in roter Schrift
+**Teil 4: Variante B — Kreatives Reframing** (Seitenumbruch)
+- Überschrift: "Variante B — Kreatives Reframing (zur Diskussion mit dem Kunden)"
+- Alle Sektionen der Berater-Variante
+- `[BERATER-ANNAHME]`-Markierungen in roter Schrift
 
-**Teil 5: Berater-Analyse (ab nächste Seite)**
-- Seitenumbruch vor diesem Teil
+**Teil 5: Berater-Analyse** (Seitenumbruch)
 - Überschrift: "Interne Analyse — nicht zur Einreichung"
-- Hintergrundfarbe oder Rahmen, der visuell klar macht: Das ist nicht Teil des Antrags
-- Sofort-Handlungsbedarf: Top 3 als nummerierte rote/orange Markierung
-- Forschungsnarrativ
-- Simulierte Nachforderung mit Status-Icons (✅ / ⚠️ / ❌)
-- Qualitätsbewertung pro Sektion
-- Offene Annahmen als Checkliste
-- Zeichenauslastungs-Tabelle
+- Grauer Rahmen um den gesamten Analyse-Teil, der visuell klar macht: Das ist nicht Teil des Antrags
+
+Visuelles Styling der Analyse im .docx:
+- **Sofort-Handlungsbedarf:** Nummeriert, Text in dunkelrot (RGB 180,0,0), fett
+- **Varianten-Vergleich:** Tabelle mit Spaltenüberschriften in dunkelblau (RGB 0,51,102). Empfehlungs-Spalte fett.
+- **Simulierte Nachforderung:** Status als Text: "[ABGEDECKT]" in grün, "[TEILWEISE]" in orange, "[OFFEN]" in rot. Handlungsempfehlung in kursiv.
+- **Sektions-Tiefenanalyse:** Pro Sektion ein Block. "Stärke" in grün, "BSFZ-Risiko" in orange, "Berater-Aktion" in dunkelrot — alles als farbiger Text, keine Hintergrundfarben (druckerfreundlich).
+- **Offene Annahmen:** Als nummerierte Liste mit Checkbox-Zeichen (☐)
+- **Zeichenauslastung:** Tabelle. Werte <95% in orange, 95-100% in grün, >100% in rot.
 
 ---
 
@@ -412,8 +371,8 @@ Ein professionell formatiertes Word-Dokument, das alle Informationen visuell sau
 ```
 1. Nutzer gibt Meeting-Transkript
 2. Phase 1: Briefing + spezifische Rückfragen + Forschungsnarrativ → Nutzer bestätigt
-3. Phase 2: Antrag schreiben → Zeichenkontrolle per Code
-4. Phase 3: Gutachter-Paraphrase + Simulierte Nachforderung + Zeichenverifikation
+3. Phase 2: Zwei Antragsvarianten + Arbeitsplan schreiben → Zeichenkontrolle per Code
+4. Phase 3: Gutachter-Paraphrase + Simulierte Nachforderung (beide Varianten) + Zeichenverifikation
 5. Phase 4: Fünf Dateien in output/[kundenname]/ ablegen
 ```
 
