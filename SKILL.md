@@ -350,19 +350,24 @@ Benannt nach dem Kunden (z.B. `lingoda.docx`, `medocheck.docx`). Enthält ALLES 
 **Teil 4: Variante B — Kreatives Reframing** (Seitenumbruch)
 - Überschrift: "Variante B — Kreatives Reframing (zur Diskussion mit dem Kunden)"
 - Alle Sektionen der Berater-Variante
-- `[BERATER-ANNAHME]`-Markierungen in roter Schrift
+- `[BERATER-ANNAHME]`-Markierungen in dunkelgrau kursiv (nicht rot — das wirkt wie ein Fehler)
 
 **Teil 5: Berater-Analyse** (Seitenumbruch)
 - Überschrift: "Interne Analyse — nicht zur Einreichung"
-- Grauer Rahmen um den gesamten Analyse-Teil, der visuell klar macht: Das ist nicht Teil des Antrags
+- Dünne graue Linie (1pt) oben als visueller Trenner zum Antragstext
 
-Visuelles Styling der Analyse im .docx:
-- **Sofort-Handlungsbedarf:** Nummeriert, Text in dunkelrot (RGB 180,0,0), fett
-- **Varianten-Vergleich:** Tabelle mit Spaltenüberschriften in dunkelblau (RGB 0,51,102). Empfehlungs-Spalte fett.
-- **Simulierte Nachforderung:** Status als Text: "[ABGEDECKT]" in grün, "[TEILWEISE]" in orange, "[OFFEN]" in rot. Handlungsempfehlung in kursiv.
-- **Sektions-Tiefenanalyse:** Pro Sektion ein Block. "Stärke" in grün, "BSFZ-Risiko" in orange, "Berater-Aktion" in dunkelrot — alles als farbiger Text, keine Hintergrundfarben (druckerfreundlich).
-- **Offene Annahmen:** Als nummerierte Liste mit Checkbox-Zeichen (☐)
-- **Zeichenauslastung:** Tabelle. Werte <95% in orange, 95-100% in grün, >100% in rot.
+Visuelles Styling — zurückhaltend und professionell (Consulting-Dokument, kein Ampelbericht):
+
+*Grundprinzip:* Schwarzer Text, sparsamer Einsatz von einer Akzentfarbe (Dunkelblau RGB 0,51,102) für Struktur. Farbe nur dort, wo sie dem Berater hilft, schneller zu scannen. Kein Rot, kein Grün im Fließtext.
+
+- **Gesamter Analyse-Teil:** Arial 10pt (eine Stufe kleiner als Antragstext — signalisiert: internes Dokument)
+- **Überschriften:** Arial 11pt Bold, Dunkelblau (RGB 0,51,102) — einzige Akzentfarbe
+- **Sofort-Handlungsbedarf:** Nummeriert, fett, schwarzer Text. Kein Rot. Die Priorität wird durch die Position (ganz oben) kommuniziert, nicht durch Farbe.
+- **Varianten-Vergleich:** Saubere Tabelle mit dunkelblauer Kopfzeile (weißer Text). Empfehlungs-Spalte fett. Tabellenzeilen abwechselnd weiß/hellgrau (Zebra-Streifen) für Lesbarkeit.
+- **Simulierte Nachforderung:** Status als schlichte Tags in eckigen Klammern: [ABGEDECKT], [TEILWEISE], [OFFEN]. Status-Tag fett. Handlungsempfehlung in normalem Text, eingerückt.
+- **Sektions-Tiefenanalyse:** Pro Sektion ein Block. Labels ("Stärke:", "BSFZ-Risiko:", "Berater-Aktion:") in fett. Normaler schwarzer Text dahinter. Keine farbigen Labels.
+- **Offene Annahmen:** Nummerierte Liste mit ☐ Checkbox-Zeichen
+- **Zeichenauslastung:** Tabelle mit dunkelblauer Kopfzeile. Werte in normalem Schwarz — der Berater sieht die Prozentzahl und braucht keine Ampel.
 
 ---
 
